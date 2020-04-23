@@ -4,11 +4,12 @@
 
 # Para descargar las librerias usar el comando en la terminal: pip install pytube3
 # No es necesario instalar la liberia os y Path ya que viene de serie
-from pytube3 import YouTube
+from pytube import YouTube
 import os
 from pathlib import Path
 
 # Variables
+yt=
 path_download=str(os.path.join(Path.home(), "Downloads"))
 
 # Funciones principales
@@ -17,6 +18,7 @@ def insert_url():
     url=input()
     url=("'"+url+"'")
     yt=YouTube(url)
+    return(yt)
     print("¿Es este el video que has seleccionado?")
     print(yt.title)
     print("[S/N]", end="")
@@ -39,14 +41,14 @@ def insert_url():
         os.system("cls")
         main()    
     
-def mostrar_url():
+def mostrar_url(yt):
     print(yt)
     print("\n")
     print("Pulsa cualquier tecla para continuar")
     volver=input()
     main()
 
-def v_dl():
+def v_dl(yt):
     print("Descargando video...")
     print(yt.streams.filter(file_extension='mp4').first().download(path_download))
     print("Video descargado con exito")
@@ -54,7 +56,7 @@ def v_dl():
     volver=input()
     main()
 
-def a_dl():
+def a_dl(yt):
     print("Descargando audio...")
     print(yt.streams.filter(only_audio=True).first().download(path_download))
     print("Audio descargado con exito")
@@ -62,7 +64,7 @@ def a_dl():
     volver=input()
     main()
     
-def all_dl():
+def all_dl(yt):
     print("Descargar todo...")
     print(yt.streams.filter(file_extension='mp4').first().download(path_download))
     print("Video descargado con exito")
@@ -103,16 +105,16 @@ def main():
         insert_url()
     elif option=='2':
         os.system("cls")
-        mostrar_url()
+        mostrar_url(yt)
     elif option=='3':
         os.system("cls")
-        v_dl()
+        v_dl(yt)
     elif option=='4':
         os.system("cls")
-        a_dl()
+        a_dl(yt)
     elif option=='5':
         os.system("cls")
-        all_dl()
+        all_dl(yt)
     elif option=='8':
         os.system("cls")
         print("CAMBIOS")
