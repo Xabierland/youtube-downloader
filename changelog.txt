@@ -2,3 +2,6 @@
 =====================================================
 - 	Se permite descargar videos
 - 	Se permite descargar audios
+
+- 	ERRORES: Algunos titulos de videos producen 
+	error a la hora de descargarlos como audio.
