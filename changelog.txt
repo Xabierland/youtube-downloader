@@ -1,0 +1,4 @@
+		CAMBIOS v1.0
+=====================================================
+- Se permite descargar videos
+- Se permite descargar audios

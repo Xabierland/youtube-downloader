@@ -1,0 +1,5 @@
+		Proximos cambios v1.1
+======================================================
+- Elegir calidad de video
+- Descargar playlist
+- Barra de prograso de descarga
