@@ -27,7 +27,6 @@ def save_url(url):
     # La guardamos de forma correcta
     yt=("'"+url+"'")
 
-
 def dl_video(link):
     print(link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download))
 
@@ -38,7 +37,6 @@ def dl_audio(link):
     base, ext = os.path.splitext(path_audio_file)
     new_file = base + '.mp3'
     os.rename(path_audio_file, new_file)
-
 
 # Funciones principales
 def insert_url():
@@ -142,6 +140,7 @@ def all_dl():
 
 
 # Menu Principal
+"""
 def main2():
     os.system("cls")
 
@@ -219,6 +218,7 @@ def main2():
         os.system("cls")
         print("'"+ option + "'" + " no es una opcion valida del menu.")
         main2()
+"""
 
 def main():
     os.system("cls")
@@ -265,7 +265,8 @@ def main():
         all_dl()
     elif option=='7':
         os.system("cls")
-        main2()
+        #main2()
+        main()
     elif option=='8':
         os.system("cls")
         f= open("changelog.txt","r")
