@@ -142,6 +142,84 @@ def all_dl():
 
 
 # Menu Principal
+def main2():
+    os.system("cls")
+
+    print("\t \t    YOUTUBE DOWNLOADER v1.0")
+    print("\t \t \t by Xabierland")
+    print("\n")
+    print("\t \t \t MENU DE OPCIONES")
+    print("")
+    print("\t [1] Introducir URL. [Playlist]")
+    print("\t [2] Mostrar URL. [Playlist]")
+    print("")
+    print("\t [3] Descargar video de youtube. [Playlist]")
+    print("\t [4] Descargar solo audio de youtube. [Playlist]")
+    print("\t [5] Descargar tanto video como audio. [Playlist]")
+    print("")
+    print("\t [6] Ant.Pagina")
+    print("")
+    print("\t [8] Notas del parche.")
+    print("\t [9] Proximamente.")
+    print("\t [0] Creditos.")
+    print("\t [00] Salir.")
+    print("\n")
+    print("Pagina 2")
+    print("")
+    print("Opcion", end=": ")
+    option=input()
+
+    # Arbol de opciones
+    if option=='1':
+        os.system("cls")
+        insert_url_pl()
+    elif option=='2':
+        os.system("cls")
+        mostrar_url_pl()
+    elif option=='3':
+        os.system("cls")
+        v_dl_pl()
+    elif option=='4':
+        os.system("cls")
+        a_dl_pl()
+    elif option=='5':
+        os.system("cls")
+        all_dl_pl()
+    elif option=='6':
+        os.system("cls")
+        main()
+    elif option=='8':
+        os.system("cls")
+        f= open("changelog.txt","r")
+        print(f.read())
+        print("\n")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main2()
+    elif option=='9':
+        os.system("cls")
+        f= open("proximamente.txt","r")
+        print(f.read())
+        print("\n")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main2()
+    elif option=='0':
+        os.system("cls")
+        f= open("creditos.txt","r")
+        print(f.read())
+        print("\n")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main2()
+    elif option=='00':
+        os.system("cls")
+        exit
+    else:
+        os.system("cls")
+        print("'"+ option + "'" + " no es una opcion valida del menu.")
+        main2()
+
 def main():
     os.system("cls")
 
@@ -155,14 +233,17 @@ def main():
     print("")
     print("\t [3] Descargar video de youtube.")
     print("\t [4] Descargar solo audio de youtube.")
-    print("")
     print("\t [5] Descargar tanto video como audio.")
     print("")
-    print("\t [8] Leer cambios.")
+    print("\t [7] Sig.Pagina")
+    print("")
+    print("\t [8] Notas del parche.")
     print("\t [9] Proximamente.")
     print("\t [0] Creditos.")
     print("\t [00] Salir.")
     print("\n")
+    print("Pagina 1")
+    print("")
     print("Opcion", end=": ")
     
     option=input()
@@ -182,6 +263,9 @@ def main():
     elif option=='5':
         os.system("cls")
         all_dl()
+    elif option=='7':
+        os.system("cls")
+        main2()
     elif option=='8':
         os.system("cls")
         f= open("changelog.txt","r")
