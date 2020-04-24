@@ -10,7 +10,15 @@ from pathlib import Path
 
 # Variables
 yt=''
-path_download=str(os.path.join(Path.home(), "Downloads"))
+path_download=str(os.path.join(Path.home(), "Downloads/yt-dl"))
+try:
+    os.mkdir(path_download)
+except OSError:
+    print("La creación del directorio %s falló" % path_download)
+else:
+    print("Se ha creado el directorio: %s " % path_download)
+
+
 
 #Sub-Programas
 def save_url(url):
@@ -72,7 +80,7 @@ def v_dl():
         print("Leyendo URL...")
         yt_main=YouTube(yt)
         print("Descargando video...")
-        print(yt_main.streams.filter(file_extension='mp4').first().download(path_download))
+        print(yt_main.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download))
         print("Video descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
@@ -89,7 +97,7 @@ def a_dl():
         print("Leyendo URL...")
         yt_main=YouTube(yt)
         print("Descargando audio...")
-        print(yt_main.streams.filter(only_audio=True).first().download(path_download))
+        print(yt_main.streams.filter(only_audio=True).get_highest_resolution().download(path_download))
         print("Audio descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
