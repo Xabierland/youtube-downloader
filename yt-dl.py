@@ -10,7 +10,7 @@ from pathlib import Path
 
 # Variables
 yt=''
-path_download=str(os.path.join(Path.home(), "Downloads/yt-dl"))
+path_download=str(os.path.join(Path.home(), "Downloads\\yt-dl"))
 try:
     os.mkdir(path_download)
 except OSError:
@@ -26,6 +26,19 @@ def save_url(url):
     global yt
     # La guardamos de forma correcta
     yt=("'"+url+"'")
+
+
+def dl_video(link):
+    print(link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download))
+
+def dl_audio(link):
+    print(link.streams.filter(only_audio=True).first().download(path_download))
+    # COMBIERTE EL ARCHIVO A MP3
+    path_audio_file=str(os.path.join(path_download, link.title + '.mp4'))
+    base, ext = os.path.splitext(path_audio_file)
+    new_file = base + '.mp3'
+    os.rename(path_audio_file, new_file)
+
 
 # Funciones principales
 def insert_url():
@@ -80,7 +93,7 @@ def v_dl():
         print("Leyendo URL...")
         yt_main=YouTube(yt)
         print("Descargando video...")
-        print(yt_main.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download))
+        dl_video(yt_main)
         print("Video descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
@@ -97,7 +110,7 @@ def a_dl():
         print("Leyendo URL...")
         yt_main=YouTube(yt)
         print("Descargando audio...")
-        print(yt_main.streams.filter(only_audio=True).get_highest_resolution().download(path_download))
+        dl_audio(yt_main)
         print("Audio descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
@@ -114,10 +127,10 @@ def all_dl():
         print("Leyendo URL...")
         yt_main=YouTube(yt)
         print("Descargar todo...")
-        print(yt_main.streams.filter(file_extension='mp4').first().download(path_download))
-        print("Video descargado con exito")
-        print(yt_main.streams.filter(only_audio=True).first().download(path_download))
+        dl_audio(yt_main)
         print("Audio descargado con exito")
+        dl_video(yt_main)
+        print("Video descargado con exito")        
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         main()
@@ -143,7 +156,7 @@ def main():
     print("\t [3] Descargar video de youtube.")
     print("\t [4] Descargar solo audio de youtube.")
     print("")
-    print("\t [ERROR] Descargar tanto video como audio.")
+    print("\t [5] Descargar tanto video como audio.")
     print("")
     print("\t [8] Leer cambios.")
     print("\t [9] Proximamente.")
