@@ -63,6 +63,7 @@ def insert_url():
     else:
         os.system("cls")
         print("ERROR: Valor introducido erroneo")
+        yt=''
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         os.system("cls")
