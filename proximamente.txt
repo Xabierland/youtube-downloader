@@ -2,4 +2,5 @@
 ======================================================
 - Elegir calidad de video
 - Descargar playlist
-- Barra de prograso de descarga
+- Barra de progreso de descarga
+- Arreglar el error de solapamiento
