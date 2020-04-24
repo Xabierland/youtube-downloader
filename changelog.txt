@@ -2,7 +2,3 @@
 =====================================================
 - 	Se permite descargar videos
 - 	Se permite descargar audios
-
-- 	ERROR: Descargar ambos a la vez o de uno en
-	uno sin cambiar antes el nombre causa la
-	perdida del primero de los archivos

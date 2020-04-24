@@ -3,4 +3,3 @@
 - Elegir calidad de video
 - Descargar playlist
 - Barra de progreso de descarga
-- Arreglar el error de solapamiento
