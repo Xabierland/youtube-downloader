@@ -2,7 +2,7 @@
 
 # Librerias
 
-# Para descargar las librerias usar el comando en la terminal: pip install pytube3
+# Para descargar las librerias usar el comando en la terminal: pip install pytube and pip install pytube3
 # No es necesario instalar la liberia os y Path ya que viene de serie
 from pytube import YouTube
 import os
