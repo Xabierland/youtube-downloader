@@ -28,15 +28,15 @@ def save_url(url):
     yt=("'"+url+"'")
 
 def dl_video(link):
-    print(link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download))
+    link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download)
 
 def dl_audio(link):
-    print(link.streams.filter(only_audio=True).first().download(path_download))
+    output=(link.streams.filter(only_audio=True).first().download(path_download))
+    
     # COMBIERTE EL ARCHIVO A MP3
-    path_audio_file=str(os.path.join(path_download, link.title + '.mp4'))
-    base, ext = os.path.splitext(path_audio_file)
+    base, ext = os.path.splitext(output)
     new_file = base + '.mp3'
-    os.rename(path_audio_file, new_file)
+    os.rename(output, new_file)
 
 # Funciones principales
 def insert_url():
