@@ -18,15 +18,31 @@ import datetime, time, os
 # Variables
 yt=''   # URL DE UN SOLO VIDEO
 pl=''   # URL DE UNA PLAYLIST
-path_download=str(os.path.join(Path.home(), "Downloads\\yt-dl"))    # LA CARPETA DONDE SE DESCARGAN
-try:
-    os.mkdir(path_download)                                         # PRUEBA A CREAR EL PATH DE DESCARGA
-except OSError:
-    print("La creación del directorio %s falló" % path_download)    # SI YA EXISTE SE EJECUTA ESTO
-else:
-    print("Se ha creado el directorio: %s " % path_download)        # SI NO EXISTE SE CREA Y SE IMPRIME
+
+if os.name == "posix":
+    path_download=str(os.path.join(Path.home(), "yt-dl"))    # LA CARPETA DONDE SE DESCARGAN
+    try:
+        os.mkdir(path_download)                                         # PRUEBA A CREAR EL PATH DE DESCARGA
+    except OSError:
+        print("La creación del directorio %s falló" % path_download)    # SI YA EXISTE SE EJECUTA ESTO
+    else:
+        print("Se ha creado el directorio: %s " % path_download)        # SI NO EXISTE SE CREA Y SE IMPRIME
+elif os.name == "ce" or os.name == "nt" or os.name == "dos":
+    path_download=str(os.path.join(Path.home(), "Downloads\\yt-dl"))    # LA CARPETA DONDE SE DESCARGAN
+    try:
+        os.mkdir(path_download)                                         # PRUEBA A CREAR EL PATH DE DESCARGA
+    except OSError:
+        print("La creación del directorio %s falló" % path_download)    # SI YA EXISTE SE EJECUTA ESTO
+    else:
+        print("Se ha creado el directorio: %s " % path_download)        # SI NO EXISTE SE CREA Y SE IMPRIME
 
 #Sub-Programas
+def borrarPantalla(): #Definimos la función estableciendo el nombre que queramos
+    if os.name == "posix":
+        os.system ("clear")
+    elif os.name == "ce" or os.name == "nt" or os.name == "dos":
+        os.system ("cls")
+
 def save_url(url):
     # Importamos la variable global
     global yt
@@ -49,11 +65,11 @@ def dl_audio(link):     # Descarga el audio del video
     name = str(link.title) + " " + x    # Pone la fecha y hora de descarga en el nombre del video
     output=(link.streams.filter(only_audio=True).first().download(path_download, name)) # Descarga el audio con el nombre indicado en la linea de arriba y guarda la direccion de guardado en la variable ouput
                                                                                         
-
     # CONVIERTE EL ARCHIVO DE MP4 A MP3
     base, ext = os.path.splitext(output)    # Divide la ruta de guardado en lo que es la base, es decir, el path y el nombre del file y por otro lado la extension, en este caso, mp4
-    new_file = base  + '.mp3'               # Sustituye la extension mp4 a mp3
-    os.rename(output, new_file)             # Efectua el cambio de nombre
+    if ext!="":
+        new_file = base  + '.mp3'               # Sustituye la extension mp4 a mp3
+        os.rename(output, new_file)             # Efectua el cambio de nombre
 
 # Funciones principales
 # LAS FUNCIONES DEL MAIN
@@ -69,8 +85,8 @@ def insert_url():
         yt=''
         print("ERROR: LA URL INTRODUCIDA NO ES VALIDA")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
-        os.system("cls")
+        input()
+        borrarPantalla()
         main()
     # Si no salta ningun error se leera el codigo debajo de este comentario.
     print("¿Es este el video que has seleccionado?")
@@ -78,23 +94,23 @@ def insert_url():
     print("[S/N]", end="")
     opcion=input()
     if opcion=='S' or opcion=='s':      # La URL ya se ha guardado y vuelves al menu principal
-        os.system("cls")
+        borrarPantalla()
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
-        os.system("cls")
+        input()
+        borrarPantalla()
         main()
     elif opcion=='N' or opcion=='n':    # En caso de que se hayan equivocado en la URL, borra la anterior y vuelve a ejecutar lo de introducir la URL
-        os.system("cls")
+        borrarPantalla()
         yt=''   # Borra la URL introducida anteriormente
         print("Vuelve a introducir la URL")
         insert_url()
     else:       # En caso de introducir una opcion no contemplada vuelve al menu principal
-        os.system("cls")
+        borrarPantalla()
         print("ERROR: Valor introducido erroneo")
         yt=''   # Borra la URL introducida anteriormente
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
-        os.system("cls")
+        input()
+        borrarPantalla()
         main()
 
 def mostrar_url():  # Muetra el titulo y la url del video
@@ -106,12 +122,12 @@ def mostrar_url():  # Muetra el titulo y la url del video
         print(yt)   # Imprime la URL
         print("\n")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()  # Vuelve al menu principal
     else:           # Si no se ha introducido la URL
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()  # Vuelve al menu principal
 
 def v_dl():
@@ -123,12 +139,12 @@ def v_dl():
         dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
         print("Video descargado con exito")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()  # Vuelve al menu principal
 def a_dl():
     global yt   # Importa la variable que almacena la URL del video como srt
@@ -139,12 +155,12 @@ def a_dl():
         dl_audio(yt_main)   # Llama a la funcion encargada de decargar el audio
         print("Audio descargado con exito")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()  # Vuelve al menu principal 
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()  # Vuelve al menu principal  
     
 def all_dl():
@@ -158,12 +174,12 @@ def all_dl():
         dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
         print("Video descargado con exito")        
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()  # Vuelve al menu principal
 
 # LAS FUNCIONES DEL MAIN2
@@ -179,8 +195,8 @@ def insert_url_pl():
         pl=''
         print("ERROR: LA URL INTRODUCIDA NO ES VALIDA")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
-        os.system("cls")
+        input()
+        borrarPantalla()
         main()
     # Si no salta ningun error se leera el codigo debajo de este comentario.
     print("¿Es esta la playlist que has seleccionado?")
@@ -188,23 +204,23 @@ def insert_url_pl():
     print("[S/N]", end="")
     opcion=input()
     if opcion=='S' or opcion=='s':      # La URL ya se ha guardado y vuelves al menu principal
-        os.system("cls")
+        borrarPantalla()
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
-        os.system("cls")
+        input()
+        borrarPantalla()
         main2()
     elif opcion=='N' or opcion=='n':    # En caso de que se hayan equivocado en la URL, borra la anterior y vuelve a ejecutar lo de introducir la URL
-        os.system("cls")
+        borrarPantalla()
         pl=''   # Borra la URL introducida anteriormente
         print("Vuelve a introducir la URL")
         insert_url_pl()
     else:       # En caso de introducir una opcion no contemplada vuelve al menu principal
-        os.system("cls")
+        borrarPantalla()
         print("ERROR: Valor introducido erroneo")
         pl=''   # Borra la URL introducida anteriormente
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
-        os.system("cls")
+        input()
+        borrarPantalla()
         main2()
 
 def mostrar_url_pl():
@@ -216,12 +232,12 @@ def mostrar_url_pl():
         print(pl)   # Imprime la URL
         print("\n")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()  # Vuelve al menu principal
     else:           # Si no se ha introducido la URL
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()  # Vuelve al menu principal
 
 def v_dl_pl():
@@ -235,12 +251,12 @@ def v_dl_pl():
             dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
         print("Videos descargado con exito")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()  # Vuelve al menu principal
 
 def a_dl_pl():
@@ -254,12 +270,12 @@ def a_dl_pl():
             dl_audio(yt_main)   # Llama a la funcion encargada de decargar el audio
         print("Audios descargado con exito")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()  # Vuelve al menu principal 
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()  # Vuelve al menu principal  
 
 def all_dl_pl():
@@ -274,12 +290,12 @@ def all_dl_pl():
             dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
         print("Videos y audios descargados con exito")        
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()  # Vuelve al menu principal
 
 
@@ -304,7 +320,7 @@ def all_dl_pl():
 # =====================================================================================Menu Principal=================================================================================================================
 # ====================================================================================================================================================================================================================
 def main2():
-    os.system("cls")
+    borrarPantalla()
 
     print("\t \t    YOUTUBE DOWNLOADER v1.1")
     print("\t \t \t by Xabierland")
@@ -332,57 +348,57 @@ def main2():
 
     # Arbol de opciones
     if option=='1':
-        os.system("cls")
+        borrarPantalla()
         insert_url_pl()
     elif option=='2':
-        os.system("cls")
+        borrarPantalla()
         mostrar_url_pl()
     elif option=='3':
-        os.system("cls")
+        borrarPantalla()
         v_dl_pl()
     elif option=='4':
-        os.system("cls")
+        borrarPantalla()
         a_dl_pl()
     elif option=='5':
-        os.system("cls")
+        borrarPantalla()
         all_dl_pl()
     elif option=='6':
-        os.system("cls")
+        borrarPantalla()
         main()
     elif option=='7':
-        os.system("cls")
+        borrarPantalla()
         f= open("changelog.txt","r")
         print(f.read())
         print("\n")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()
     elif option=='8':
-        os.system("cls")
+        borrarPantalla()
         f= open("proximamente.txt","r")
         print(f.read())
         print("\n")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()
     elif option=='9':
-        os.system("cls")
+        borrarPantalla()
         f= open("creditos.txt","r")
         print(f.read())
         print("\n")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main2()
     elif option=='0':
-        os.system("cls")
+        borrarPantalla()
         exit
     else:
-        os.system("cls")
+        borrarPantalla()
         print("'"+ option + "'" + " no es una opcion valida del menu.")
         main2()
 
 def main():
-    os.system("cls")
+    borrarPantalla()
 
     print("\t \t    YOUTUBE DOWNLOADER v1.1")
     print("\t \t \t by Xabierland")
@@ -410,55 +426,55 @@ def main():
     option=input()
     # Arbol de opciones
     if option=='1':
-        os.system("cls")
+        borrarPantalla()
         insert_url()
     elif option=='2':
-        os.system("cls")
+        borrarPantalla()
         mostrar_url()
     elif option=='3':
-        os.system("cls")
+        borrarPantalla()
         v_dl()
     elif option=='4':
-        os.system("cls")
+        borrarPantalla()
         a_dl()
     elif option=='5':
-        os.system("cls")
+        borrarPantalla()
         all_dl()
     elif option=='6':
-        os.system("cls")
+        borrarPantalla()
         main2()
     elif option=='7':
-        os.system("cls")
+        borrarPantalla()
         f= open("changelog.txt","r")
         print(f.read())
         print("\n")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()
     elif option=='8':
-        os.system("cls")
+        borrarPantalla()
         f= open("proximamente.txt","r")
         print(f.read())
         print("\n")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()
     elif option=='9':
-        os.system("cls")
+        borrarPantalla()
         f= open("creditos.txt","r")
         print(f.read())
         print("\n")
         print("Pulsa cualquier tecla para continuar")
-        volver=input()
+        input()
         main()
     elif option=='0':
-        os.system("cls")
+        borrarPantalla()
         exit
     else:
-        os.system("cls")
+        borrarPantalla()
         print("'"+ option + "'" + " no es una opcion valida del menu.")
         main()
 
 # DONDE EMPIEZA LA MAGIA
-os.system("cls")
+borrarPantalla()
 main()
