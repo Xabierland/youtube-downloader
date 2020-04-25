@@ -1,7 +1,14 @@
 # Script para descargar videos de youtube
 
-# Librerias
+#Programa creado el 23/04/2020 por Xabier Gabiña ak.Xabierland
+#Mi Github: https://github.com/Xabierland
+#Mi Twitter: https://twitter.com/Xabierland
+#Mi Instagram: https://www.instagram.com/xabierland/
+#Mi Web: https://xabierland.eus/
+# Acepto donaciones a traves de PayPal
+# https://paypal.me/xabierland/
 
+# Librerias
 # Para descargar las librerias usar el comando en la terminal: pip install pytube and pip install pytube3
 # No es necesario instalar la liberia os y Path ya que viene de serie
 from pytube import YouTube, Playlist
