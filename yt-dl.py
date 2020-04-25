@@ -7,18 +7,18 @@
 from pytube import YouTube
 import os
 from pathlib import Path
+import datetime, time
 
 # Variables
-yt=''
-path_download=str(os.path.join(Path.home(), "Downloads\\yt-dl"))
+yt=''   # URL DE UN SOLO VIDEO
+pl=''   # URL DE UNA PLAYLIST
+path_download=str(os.path.join(Path.home(), "Downloads\\yt-dl"))    # LA CARPETA DONDE SE DESCARGAN
 try:
-    os.mkdir(path_download)
+    os.mkdir(path_download)     # PRUEBA A CREAR EL PATH DE DESCARGA
 except OSError:
-    print("La creación del directorio %s falló" % path_download)
+    print("La creación del directorio %s falló" % path_download)    # SI YA EXISTE SE EJECUTA ESTO
 else:
-    print("Se ha creado el directorio: %s " % path_download)
-
-
+    print("Se ha creado el directorio: %s " % path_download)        # SI NO EXISTE SE CREA Y SE IMPRIME
 
 #Sub-Programas
 def save_url(url):
@@ -27,64 +27,70 @@ def save_url(url):
     # La guardamos de forma correcta
     yt=("'"+url+"'")
 
-def dl_video(link):
-    link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download)
+def dl_video(link):     # Descarga el video con mejor calidad
+    x = str(datetime.datetime.now())    # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
+    name = str(link.title) + " " + x    # Pone la fecha y hora de descarga
+    link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download, name)
 
-def dl_audio(link):
-    output=(link.streams.filter(only_audio=True).first().download(path_download))
+def dl_audio(link):     # Descarga el audio del video
+    x = str(datetime.datetime.now())    # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
+    name = str(link.title) + " " + x    # Pone la fecha y hora de descarga
+    output=(link.streams.filter(only_audio=True).first().download(path_download, name))
     
-    # COMBIERTE EL ARCHIVO A MP3
+    # CONVIERTE EL ARCHIVO DE MP4 A MP3
     base, ext = os.path.splitext(output)
-    new_file = base + '.mp3'
+    new_file = base  + '.mp3'
     os.rename(output, new_file)
 
 # Funciones principales
+# LAS FUNCIONES DEL MAIN
 def insert_url():
     print("Cual es la URL a descargar: ", end="")
     url=input()
-    save_url(url)
-    global yt
+    save_url(url)   # Guarda la URL en la variable global
+    global yt   # Importa la variable que almacena la URL del video como srt
     print("Leyendo URL...")
-    yt_main=YouTube(yt)
+    yt_main=YouTube(yt)     # Hace un polimorfismo y cambia yt de srt a la clase YouTube
     print("¿Es este el video que has seleccionado?")
-    print(yt_main.title)
+    print(yt_main.title)    # Imprime el titulo del video
     print("[S/N]", end="")
     opcion=input()
-    if opcion=='S' or opcion=='s':
+    if opcion=='S' or opcion=='s':      # La URL ya se ha guardado y vuelves al menu principal
         os.system("cls")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         os.system("cls")
         main()
-    elif opcion=='N' or opcion=='n':
+    elif opcion=='N' or opcion=='n':    # En caso de que se hayan equivocado en la URL, borra la anterior y vuelve a ejecutar lo de introducir la URL
         os.system("cls")
+        yt=''   # Borra la URL introducida anteriormente
         print("Vuelve a introducir la URL")
         insert_url()
-    else:
+    else:       # En caso de introducir una opcion no contemplada vuelve al menu principal
         os.system("cls")
         print("ERROR: Valor introducido erroneo")
-        yt=''
+        yt=''   # Borra la URL introducida anteriormente
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         os.system("cls")
-        main()    
+        main()
     
-def mostrar_url():
+def mostrar_url():  # Muetra el titulo y la url del video
     global yt
-    if yt!='':  
+    if yt!='':      # Si ya se ha introducido la URL
         print("Leyendo URL...")
-        yt_main=YouTube(yt)
-        print("\t" + yt_main.title)
-        print(yt)
+        yt_main=YouTube(yt) # Hace el polimorfismo
+        print("\t" + yt_main.title) # Imprime el titutlo
+        print(yt)   # Imprime la URL
         print("\n")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()
-    else:
+        main()  # Vuelve al menu principal
+    else:           # Si no se ha introducido la URL
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()
+        main()  # Vuelve al menu principal
 
 def v_dl():
     global yt
@@ -138,10 +144,25 @@ def all_dl():
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         main()
+# LAS FUNCIONES DEL MAIN2
+def insert_url_pl():
+    main2()
+
+def mostrar_url_pl():
+    main2()
+
+def v_dl_pl():
+    main2()
+
+def a_dl_pl():
+    main2()
+
+def all_dl_pl():
+    main2()
 
 
 # Menu Principal
-"""
+
 def main2():
     os.system("cls")
 
@@ -159,10 +180,10 @@ def main2():
     print("")
     print("\t [6] Ant.Pagina")
     print("")
-    print("\t [8] Notas del parche.")
-    print("\t [9] Proximamente.")
-    print("\t [0] Creditos.")
-    print("\t [00] Salir.")
+    print("\t [7] Notas del parche.")
+    print("\t [8] Proximamente.")
+    print("\t [9] Creditos.")
+    print("\t [0] Salir.")
     print("\n")
     print("Pagina 2")
     print("")
@@ -188,7 +209,7 @@ def main2():
     elif option=='6':
         os.system("cls")
         main()
-    elif option=='8':
+    elif option=='7':
         os.system("cls")
         f= open("changelog.txt","r")
         print(f.read())
@@ -196,7 +217,7 @@ def main2():
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         main2()
-    elif option=='9':
+    elif option=='8':
         os.system("cls")
         f= open("proximamente.txt","r")
         print(f.read())
@@ -204,7 +225,7 @@ def main2():
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         main2()
-    elif option=='0':
+    elif option=='9':
         os.system("cls")
         f= open("creditos.txt","r")
         print(f.read())
@@ -212,14 +233,13 @@ def main2():
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         main2()
-    elif option=='00':
+    elif option=='0':
         os.system("cls")
         exit
     else:
         os.system("cls")
         print("'"+ option + "'" + " no es una opcion valida del menu.")
         main2()
-"""
 
 def main():
     os.system("cls")
@@ -236,12 +256,12 @@ def main():
     print("\t [4] Descargar solo audio de youtube.")
     print("\t [5] Descargar tanto video como audio.")
     print("")
-    print("\t [7] Sig.Pagina")
+    print("\t [6] Sig.Pagina")
     print("")
-    print("\t [8] Notas del parche.")
-    print("\t [9] Proximamente.")
-    print("\t [0] Creditos.")
-    print("\t [00] Salir.")
+    print("\t [7] Notas del parche.")
+    print("\t [8] Proximamente.")
+    print("\t [9] Creditos.")
+    print("\t [0] Salir.")
     print("\n")
     print("Pagina 1")
     print("")
@@ -264,11 +284,10 @@ def main():
     elif option=='5':
         os.system("cls")
         all_dl()
-    elif option=='7':
+    elif option=='6':
         os.system("cls")
-        #main2()
-        main()
-    elif option=='8':
+        main2()
+    elif option=='7':
         os.system("cls")
         f= open("changelog.txt","r")
         print(f.read())
@@ -276,7 +295,7 @@ def main():
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         main()
-    elif option=='9':
+    elif option=='8':
         os.system("cls")
         f= open("proximamente.txt","r")
         print(f.read())
@@ -284,7 +303,7 @@ def main():
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         main()
-    elif option=='0':
+    elif option=='9':
         os.system("cls")
         f= open("creditos.txt","r")
         print(f.read())
@@ -292,7 +311,7 @@ def main():
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         main()
-    elif option=='00':
+    elif option=='0':
         os.system("cls")
         exit
     else:
