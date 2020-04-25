@@ -1,5 +1,5 @@
 # Youtube Downloader
-Es recomendable usar Python3 ya que Python2 en algunos sistemas causa errores
+Es recomendable usar Python3 ya que Python2 causa errores en algunos sistemas.
 # Creditos
 Programa creado el 23/04/2020 por Xabier Gabiña ak.Xabierland
 
