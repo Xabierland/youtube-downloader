@@ -1,4 +1,13 @@
-		CAMBIOS v1.0
+		CAMBIOS v1.0	23/04/2020
 =====================================================
 - 	Se permite descargar videos
 - 	Se permite descargar audios
+
+		CAMBIOS v1.1	26/04/2020
+=====================================================
+-	Los archivos se guardan con la fecha
+	lo que permite descargar varias instancias
+	de un mismo video
+
+-	Se ha añadido una nueva pagina al menu con
+	las opciones de las playlist

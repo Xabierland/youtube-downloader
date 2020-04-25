@@ -5,9 +5,8 @@
 # Para descargar las librerias usar el comando en la terminal: pip install pytube and pip install pytube3
 # No es necesario instalar la liberia os y Path ya que viene de serie
 from pytube import YouTube
-import os
 from pathlib import Path
-import datetime, time
+import datetime, time, os
 
 # Variables
 yt=''   # URL DE UN SOLO VIDEO
@@ -34,13 +33,14 @@ def dl_video(link):     # Descarga el video con mejor calidad
 
 def dl_audio(link):     # Descarga el audio del video
     x = str(datetime.datetime.now())    # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
-    name = str(link.title) + " " + x    # Pone la fecha y hora de descarga
-    output=(link.streams.filter(only_audio=True).first().download(path_download, name))
-    
+    name = str(link.title) + " " + x    # Pone la fecha y hora de descarga en el nombre del video
+    output=(link.streams.filter(only_audio=True).first().download(path_download, name)) # Descarga el audio con el nombre indicado en la linea de arriba y 
+                                                                                        # guarda la direccion de guardado en la variable ouput
+
     # CONVIERTE EL ARCHIVO DE MP4 A MP3
-    base, ext = os.path.splitext(output)
-    new_file = base  + '.mp3'
-    os.rename(output, new_file)
+    base, ext = os.path.splitext(output)    # Divide la ruta de guardado en lo que es la base, es decir, el path y el nombre del file y por otro lado la extension, en este caso, mp4
+    new_file = base  + '.mp3'               # Sustituye la extension mp4 a mp3
+    os.rename(output, new_file)             # Efectua el cambio de nombre
 
 # Funciones principales
 # LAS FUNCIONES DEL MAIN
@@ -50,7 +50,16 @@ def insert_url():
     save_url(url)   # Guarda la URL en la variable global
     global yt   # Importa la variable que almacena la URL del video como srt
     print("Leyendo URL...")
-    yt_main=YouTube(yt)     # Hace un polimorfismo y cambia yt de srt a la clase YouTube
+    try:    # Comprueba que al realizar el polimorfismo no salte error
+        yt_main=YouTube(yt)     # Hace un polimorfismo y cambia yt de srt a la clase YouTube
+    except: # En caso de saltar se volvera al menu
+        yt=''
+        print("ERROR: LA URL INTRODUCIDA NO ES VALIDA")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        os.system("cls")
+        main()
+    # Si no salta ningun error se leera el codigo debajo de este comentario.
     print("¿Es este el video que has seleccionado?")
     print(yt_main.title)    # Imprime el titulo del video
     print("[S/N]", end="")
@@ -74,10 +83,10 @@ def insert_url():
         volver=input()
         os.system("cls")
         main()
-    
+
 def mostrar_url():  # Muetra el titulo y la url del video
-    global yt
-    if yt!='':      # Si ya se ha introducido la URL
+    global yt   # Importa la variable que almacena la URL del video como srt
+    if yt!='':  # Comprueba que antes se haya introducido una URL
         print("Leyendo URL...")
         yt_main=YouTube(yt) # Hace el polimorfismo
         print("\t" + yt_main.title) # Imprime el titutlo
@@ -93,57 +102,56 @@ def mostrar_url():  # Muetra el titulo y la url del video
         main()  # Vuelve al menu principal
 
 def v_dl():
-    global yt
-    if yt!='':
+    global yt   # Importa la variable que almacena la URL del video como srt
+    if yt!='':  # Comprueba que antes se haya introducido una URL
         print("Leyendo URL...")
-        yt_main=YouTube(yt)
+        yt_main=YouTube(yt) # Hace el polimorfismo
         print("Descargando video...")
-        dl_video(yt_main)
+        dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
         print("Video descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()
+        main()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()
-
+        main()  # Vuelve al menu principal
 def a_dl():
-    global yt
-    if yt!='':
+    global yt   # Importa la variable que almacena la URL del video como srt
+    if yt!='':  # Comprueba que antes se haya introducido una URL
         print("Leyendo URL...")
-        yt_main=YouTube(yt)
+        yt_main=YouTube(yt) # Hace el polimorfismo
         print("Descargando audio...")
-        dl_audio(yt_main)
+        dl_audio(yt_main)   # Llama a la funcion encargada de decargar el audio
         print("Audio descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()
+        main()  # Vuelve al menu principal 
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()
+        main()  # Vuelve al menu principal  
     
 def all_dl():
-    global yt
-    if yt!='':
+    global yt   # Importa la variable que almacena la URL del video como srt
+    if yt!='':  # Comprueba que antes se haya introducido una URL
         print("Leyendo URL...")
-        yt_main=YouTube(yt)
+        yt_main=YouTube(yt) # Hace el polimorfismo
         print("Descargar todo...")
-        dl_audio(yt_main)
+        dl_audio(yt_main)   # Llama a la funcion encargada de decargar el video
         print("Audio descargado con exito")
-        dl_video(yt_main)
+        dl_video(yt_main)   # Llama a la funcion encargada de decargar el audio
         print("Video descargado con exito")        
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()
+        main()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()
+        main()  # Vuelve al menu principal
 # LAS FUNCIONES DEL MAIN2
 def insert_url_pl():
     main2()
@@ -161,8 +169,26 @@ def all_dl_pl():
     main2()
 
 
-# Menu Principal
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ====================================================================================================================================================================================================================
+# =====================================================================================Menu Principal=================================================================================================================
+# ====================================================================================================================================================================================================================
 def main2():
     os.system("cls")
 
