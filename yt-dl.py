@@ -4,7 +4,7 @@
 
 # Para descargar las librerias usar el comando en la terminal: pip install pytube and pip install pytube3
 # No es necesario instalar la liberia os y Path ya que viene de serie
-from pytube import YouTube
+from pytube import YouTube, Playlist
 from pathlib import Path
 import datetime, time, os
 
@@ -13,7 +13,7 @@ yt=''   # URL DE UN SOLO VIDEO
 pl=''   # URL DE UNA PLAYLIST
 path_download=str(os.path.join(Path.home(), "Downloads\\yt-dl"))    # LA CARPETA DONDE SE DESCARGAN
 try:
-    os.mkdir(path_download)     # PRUEBA A CREAR EL PATH DE DESCARGA
+    os.mkdir(path_download)                                         # PRUEBA A CREAR EL PATH DE DESCARGA
 except OSError:
     print("La creación del directorio %s falló" % path_download)    # SI YA EXISTE SE EJECUTA ESTO
 else:
@@ -26,6 +26,12 @@ def save_url(url):
     # La guardamos de forma correcta
     yt=("'"+url+"'")
 
+def save_url_pl(url):
+    # Importamos la variable global
+    global pl
+    # La guardamos de forma correcta
+    pl=("'"+url+"'")
+
 def dl_video(link):     # Descarga el video con mejor calidad
     x = str(datetime.datetime.now())    # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
     name = str(link.title) + " " + x    # Pone la fecha y hora de descarga
@@ -34,8 +40,8 @@ def dl_video(link):     # Descarga el video con mejor calidad
 def dl_audio(link):     # Descarga el audio del video
     x = str(datetime.datetime.now())    # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
     name = str(link.title) + " " + x    # Pone la fecha y hora de descarga en el nombre del video
-    output=(link.streams.filter(only_audio=True).first().download(path_download, name)) # Descarga el audio con el nombre indicado en la linea de arriba y 
-                                                                                        # guarda la direccion de guardado en la variable ouput
+    output=(link.streams.filter(only_audio=True).first().download(path_download, name)) # Descarga el audio con el nombre indicado en la linea de arriba y guarda la direccion de guardado en la variable ouput
+                                                                                        
 
     # CONVIERTE EL ARCHIVO DE MP4 A MP3
     base, ext = os.path.splitext(output)    # Divide la ruta de guardado en lo que es la base, es decir, el path y el nombre del file y por otro lado la extension, en este caso, mp4
@@ -139,10 +145,10 @@ def all_dl():
     if yt!='':  # Comprueba que antes se haya introducido una URL
         print("Leyendo URL...")
         yt_main=YouTube(yt) # Hace el polimorfismo
-        print("Descargar todo...")
-        dl_audio(yt_main)   # Llama a la funcion encargada de decargar el video
+        print("Descargando todo...")
+        dl_audio(yt_main)   # Llama a la funcion encargada de decargar el audio
         print("Audio descargado con exito")
-        dl_video(yt_main)   # Llama a la funcion encargada de decargar el audio
+        dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
         print("Video descargado con exito")        
         print("Pulsa cualquier tecla para continuar")
         volver=input()
@@ -152,21 +158,122 @@ def all_dl():
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         main()  # Vuelve al menu principal
+
 # LAS FUNCIONES DEL MAIN2
 def insert_url_pl():
-    main2()
+    print("Cual es la URL a descargar: ", end="")
+    url=input()
+    save_url_pl(url)   # Guarda la URL en la variable global
+    global pl   # Importa la variable que almacena la URL del video como srt
+    print("Leyendo URL...")
+    try:    # Comprueba que al realizar el polimorfismo no salte error
+        pl_main=Playlist(pl)     # Hace un polimorfismo y cambia yt de srt a la clase YouTube
+    except: # En caso de saltar se volvera al menu
+        pl=''
+        print("ERROR: LA URL INTRODUCIDA NO ES VALIDA")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        os.system("cls")
+        main()
+    # Si no salta ningun error se leera el codigo debajo de este comentario.
+    print("¿Es este el video que has seleccionado?")
+    print(pl_main.title)    # Imprime el titulo del video
+    print("[S/N]", end="")
+    opcion=input()
+    if opcion=='S' or opcion=='s':      # La URL ya se ha guardado y vuelves al menu principal
+        os.system("cls")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        os.system("cls")
+        main()
+    elif opcion=='N' or opcion=='n':    # En caso de que se hayan equivocado en la URL, borra la anterior y vuelve a ejecutar lo de introducir la URL
+        os.system("cls")
+        pl=''   # Borra la URL introducida anteriormente
+        print("Vuelve a introducir la URL")
+        insert_url()
+    else:       # En caso de introducir una opcion no contemplada vuelve al menu principal
+        os.system("cls")
+        print("ERROR: Valor introducido erroneo")
+        pl=''   # Borra la URL introducida anteriormente
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        os.system("cls")
+        main()
 
 def mostrar_url_pl():
-    main2()
+    global pl   # Importa la variable que almacena la URL del video como srt
+    if pl!='':  # Comprueba que antes se haya introducido una URL
+        print("Leyendo URL...")
+        pl_main=Playlist(pl) # Hace el polimorfismo
+        print("\t" + pl_main.title) # Imprime el titutlo
+        print(pl)   # Imprime la URL
+        print("\n")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main()  # Vuelve al menu principal
+    else:           # Si no se ha introducido la URL
+        print("ERROR: Introduce antes una URL")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main()  # Vuelve al menu principal
 
 def v_dl_pl():
-    main2()
+    global pl   # Importa la variable que almacena la URL del video como srt
+    if pl!='':  # Comprueba que antes se haya introducido una URL
+        print("Leyendo URLs...")
+        pl_main=Playlist(pl) # Hace el polimorfismo
+        print("Descargando videos...")
+        for yt in pl_main:
+            yt_main=YouTube(yt)
+            dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
+        print("Videos descargado con exito")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main()  # Vuelve al menu principal
+    else:
+        print("ERROR: Introduce antes una URL")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main()  # Vuelve al menu principal
 
 def a_dl_pl():
-    main2()
+    global pl   # Importa la variable que almacena la URL del video como srt
+    if pl!='':  # Comprueba que antes se haya introducido una URL
+        print("Leyendo URLs...")
+        pl_main=Playlist(pl) # Hace el polimorfismo
+        print("Descargando audios...")
+        for yt in pl_main:
+            yt_main=YouTube(yt)
+            dl_audio(yt_main)   # Llama a la funcion encargada de decargar el audio
+        print("Audios descargado con exito")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main()  # Vuelve al menu principal 
+    else:
+        print("ERROR: Introduce antes una URL")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main()  # Vuelve al menu principal  
 
 def all_dl_pl():
-    main2()
+    global pl   # Importa la variable que almacena la URL del video como srt
+    if pl!='':  # Comprueba que antes se haya introducido una URL
+        print("Leyendo URLs...")
+        pl_main=Playlist(pl) # Hace el polimorfismo
+        print("Descargando todo...")
+        for yt in pl_main:
+            yt_main=YouTube(yt)
+            dl_audio(yt_main)   # Llama a la funcion encargada de decargar el audio
+            dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
+        print("Videos y audios descargados con exito")        
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main()  # Vuelve al menu principal
+    else:
+        print("ERROR: Introduce antes una URL")
+        print("Pulsa cualquier tecla para continuar")
+        volver=input()
+        main()  # Vuelve al menu principal
 
 
 
