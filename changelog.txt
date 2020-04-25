@@ -7,7 +7,10 @@
 =====================================================
 -	Los archivos se guardan con la fecha
 	lo que permite descargar varias instancias
-	de un mismo video
-
+	de un mismo video.
 -	Se ha añadido una nueva pagina al menu con
 	las opciones de las playlist
+-	Se permite descargar playlist ya sea como
+	video, audio o ambas
+-	Se han arreglado varios errores que producian
+	el cierre del programa.

@@ -30,7 +30,7 @@ def save_url_pl(url):
     # Importamos la variable global
     global pl
     # La guardamos de forma correcta
-    pl=("'"+url+"'")
+    pl=(url)
 
 def dl_video(link):     # Descarga el video con mejor calidad
     x = str(datetime.datetime.now())    # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
@@ -176,8 +176,8 @@ def insert_url_pl():
         os.system("cls")
         main()
     # Si no salta ningun error se leera el codigo debajo de este comentario.
-    print("¿Es este el video que has seleccionado?")
-    print(pl_main.title)    # Imprime el titulo del video
+    print("¿Es esta la playlist que has seleccionado?")
+    print(pl_main.title())    # Imprime el titulo del video
     print("[S/N]", end="")
     opcion=input()
     if opcion=='S' or opcion=='s':      # La URL ya se ha guardado y vuelves al menu principal
@@ -185,12 +185,12 @@ def insert_url_pl():
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         os.system("cls")
-        main()
+        main2()
     elif opcion=='N' or opcion=='n':    # En caso de que se hayan equivocado en la URL, borra la anterior y vuelve a ejecutar lo de introducir la URL
         os.system("cls")
         pl=''   # Borra la URL introducida anteriormente
         print("Vuelve a introducir la URL")
-        insert_url()
+        insert_url_pl()
     else:       # En caso de introducir una opcion no contemplada vuelve al menu principal
         os.system("cls")
         print("ERROR: Valor introducido erroneo")
@@ -198,7 +198,7 @@ def insert_url_pl():
         print("Pulsa cualquier tecla para continuar")
         volver=input()
         os.system("cls")
-        main()
+        main2()
 
 def mostrar_url_pl():
     global pl   # Importa la variable que almacena la URL del video como srt
@@ -210,12 +210,12 @@ def mostrar_url_pl():
         print("\n")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()  # Vuelve al menu principal
+        main2()  # Vuelve al menu principal
     else:           # Si no se ha introducido la URL
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()  # Vuelve al menu principal
+        main2()  # Vuelve al menu principal
 
 def v_dl_pl():
     global pl   # Importa la variable que almacena la URL del video como srt
@@ -229,12 +229,12 @@ def v_dl_pl():
         print("Videos descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()  # Vuelve al menu principal
+        main2()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()  # Vuelve al menu principal
+        main2()  # Vuelve al menu principal
 
 def a_dl_pl():
     global pl   # Importa la variable que almacena la URL del video como srt
@@ -248,12 +248,12 @@ def a_dl_pl():
         print("Audios descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()  # Vuelve al menu principal 
+        main2()  # Vuelve al menu principal 
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()  # Vuelve al menu principal  
+        main2()  # Vuelve al menu principal  
 
 def all_dl_pl():
     global pl   # Importa la variable que almacena la URL del video como srt
@@ -268,12 +268,12 @@ def all_dl_pl():
         print("Videos y audios descargados con exito")        
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()  # Vuelve al menu principal
+        main2()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         volver=input()
-        main()  # Vuelve al menu principal
+        main2()  # Vuelve al menu principal
 
 
 
@@ -299,7 +299,7 @@ def all_dl_pl():
 def main2():
     os.system("cls")
 
-    print("\t \t    YOUTUBE DOWNLOADER v1.0")
+    print("\t \t    YOUTUBE DOWNLOADER v1.1")
     print("\t \t \t by Xabierland")
     print("\n")
     print("\t \t \t MENU DE OPCIONES")
@@ -377,7 +377,7 @@ def main2():
 def main():
     os.system("cls")
 
-    print("\t \t    YOUTUBE DOWNLOADER v1.0")
+    print("\t \t    YOUTUBE DOWNLOADER v1.1")
     print("\t \t \t by Xabierland")
     print("\n")
     print("\t \t \t MENU DE OPCIONES")
