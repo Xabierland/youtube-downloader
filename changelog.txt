@@ -14,3 +14,6 @@
 	video, audio o ambas
 -	Se han arreglado varios errores que producian
 	el cierre del programa.
+-	El programa ya es usable ademas de en Windows
+	en Linux y en MACOS aunque solo ejecutandolo
+	desde la terminal.

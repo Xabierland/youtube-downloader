@@ -56,12 +56,14 @@ def save_url_pl(url):
     pl=(url)
 
 def dl_video(link):     # Descarga el video con mejor calidad
-    x = str(datetime.datetime.now())    # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
+    x = datetime.datetime.now()   # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
+    x = str(x.strftime(" %Y-%m-%d %H-%M-%S"))
     name = str(link.title) + " " + x    # Pone la fecha y hora de descarga
     link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download, name)
 
 def dl_audio(link):     # Descarga el audio del video
-    x = str(datetime.datetime.now())    # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
+    x = datetime.datetime.now()    # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
+    x = str(x.strftime(" %Y-%m-%d %H-%M-%S"))
     name = str(link.title) + " " + x    # Pone la fecha y hora de descarga en el nombre del video
     output=(link.streams.filter(only_audio=True).first().download(path_download, name)) # Descarga el audio con el nombre indicado en la linea de arriba y guarda la direccion de guardado en la variable ouput
                                                                                         
