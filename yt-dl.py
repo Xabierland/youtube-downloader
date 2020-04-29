@@ -125,11 +125,13 @@ def mostrar_url():  # Muetra el titulo y la url del video
         print("\n")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()  # Vuelve al menu principal
     else:           # Si no se ha introducido la URL
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()  # Vuelve al menu principal
 
 def v_dl():
@@ -142,11 +144,13 @@ def v_dl():
         print("Video descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()  # Vuelve al menu principal
 def a_dl():
     global yt   # Importa la variable que almacena la URL del video como srt
@@ -158,11 +162,13 @@ def a_dl():
         print("Audio descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()  # Vuelve al menu principal 
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()  # Vuelve al menu principal  
     
 def all_dl():
@@ -177,11 +183,13 @@ def all_dl():
         print("Video descargado con exito")        
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()  # Vuelve al menu principal
 
 # LAS FUNCIONES DEL MAIN2
@@ -235,11 +243,13 @@ def mostrar_url_pl():
         print("\n")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()  # Vuelve al menu principal
     else:           # Si no se ha introducido la URL
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()  # Vuelve al menu principal
 
 def v_dl_pl():
@@ -254,11 +264,13 @@ def v_dl_pl():
         print("Videos descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()  # Vuelve al menu principal
 
 def a_dl_pl():
@@ -273,11 +285,13 @@ def a_dl_pl():
         print("Audios descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()  # Vuelve al menu principal 
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()  # Vuelve al menu principal  
 
 def all_dl_pl():
@@ -293,11 +307,13 @@ def all_dl_pl():
         print("Videos y audios descargados con exito")        
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()  # Vuelve al menu principal
     else:
         print("ERROR: Introduce antes una URL")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()  # Vuelve al menu principal
 
 
@@ -322,12 +338,12 @@ def all_dl_pl():
 # =====================================================================================Menu Principal=================================================================================================================
 # ====================================================================================================================================================================================================================
 def main2():
-    borrarPantalla()
-
-    print("\t \t    YOUTUBE DOWNLOADER v1.1")
-    print("\t \t \t by Xabierland")
+    f= open("title.txt","r", encoding="utf8")   # Using https://textfancy.com/
+    print(f.read())
+    print("\t\t\t\t\t by Xabierland")
     print("\n")
-    print("\t \t \tMENU DE OPCIONES")
+    print("\t\t\t\t\tMENU DE OPCIONES")
+    print("\n")
     print("")
     print("\t [1] Introducir URL. [Playlist]")
     print("\t [2] Mostrar URL. [Playlist]")
@@ -366,6 +382,7 @@ def main2():
         all_dl_pl()
     elif option=='6':
         borrarPantalla()
+        borrarPantalla()
         main()
     elif option=='7':
         borrarPantalla()
@@ -374,6 +391,7 @@ def main2():
         print("\n")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()
     elif option=='8':
         borrarPantalla()
@@ -382,6 +400,7 @@ def main2():
         print("\n")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()
     elif option=='9':
         borrarPantalla()
@@ -390,6 +409,7 @@ def main2():
         print("\n")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main2()
     elif option=='0':
         borrarPantalla()
@@ -397,15 +417,15 @@ def main2():
     else:
         borrarPantalla()
         print("'"+ option + "'" + " no es una opcion valida del menu.")
+        borrarPantalla()
         main2()
 
 def main():
-    borrarPantalla()
-
-    print("\t \t    YOUTUBE DOWNLOADER v1.1")
-    print("\t \t \t by Xabierland")
+    f= open("title.txt","r", encoding="utf8")
+    print(f.read())
+    print("\t\t\t\t\t by Xabierland")
     print("\n")
-    print("\t \t \tMENU DE OPCIONES")
+    print("\t\t\t\t\tMENU DE OPCIONES")
     print("")
     print("\t [1] Introducir URL")
     print("\t [2] Mostrar URL")
@@ -444,6 +464,7 @@ def main():
         all_dl()
     elif option=='6':
         borrarPantalla()
+        borrarPantalla()
         main2()
     elif option=='7':
         borrarPantalla()
@@ -452,6 +473,7 @@ def main():
         print("\n")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()
     elif option=='8':
         borrarPantalla()
@@ -460,6 +482,7 @@ def main():
         print("\n")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()
     elif option=='9':
         borrarPantalla()
@@ -468,6 +491,7 @@ def main():
         print("\n")
         print("Pulsa cualquier tecla para continuar")
         input()
+        borrarPantalla()
         main()
     elif option=='0':
         borrarPantalla()
@@ -475,6 +499,7 @@ def main():
     else:
         borrarPantalla()
         print("'"+ option + "'" + " no es una opcion valida del menu.")
+        borrarPantalla()
         main()
 
 # DONDE EMPIEZA LA MAGIA
