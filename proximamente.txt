@@ -2,4 +2,5 @@
 ======================================================
 - Elegir calidad de video
 - Barra de progreso de descarga
-- ¿Interfaz grafica?
+- Interfaz grafica?
+- Traducirlo del ingles.

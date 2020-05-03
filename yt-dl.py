@@ -13,11 +13,14 @@
 # No es necesario instalar la liberia os y Path ya que viene de serie
 from pytube import YouTube, Playlist
 from pathlib import Path
+from os import remove
 import datetime, time, os
 
 # Variables
 yt=''   # URL DE UN SOLO VIDEO
 pl=''   # URL DE UNA PLAYLIST
+path_download=''
+path_download_pl=''
 
 if os.name == "posix":
     path_download=str(os.path.join(Path.home(), "yt-dl"))    # LA CARPETA DONDE SE DESCARGAN
@@ -37,6 +40,17 @@ elif os.name == "ce" or os.name == "nt" or os.name == "dos":
         print("Se ha creado el directorio: %s " % path_download)        # SI NO EXISTE SE CREA Y SE IMPRIME
 
 #Sub-Programas
+def carpeta_pl(nombre):
+    global path_download, path_download_pl
+    path_download_pl=str(os.path.join(path_download, nombre))    # LA CARPETA DONDE SE DESCARGAN
+    try:
+        os.mkdir(path_download_pl)                                         # PRUEBA A CREAR EL PATH DE DESCARGA
+    except OSError:
+        print("La carpeta ya existe")    # SI YA EXISTE SE EJECUTA ESTO
+    else:
+        print("Se ha creado el directorio: %s " % path_download_pl)        # SI NO EXISTE SE CREA Y SE IMPRIME
+    
+
 def borrarPantalla(): #Definimos la función estableciendo el nombre que queramos
     if os.name == "posix":
         os.system ("clear")
@@ -55,23 +69,93 @@ def save_url_pl(url):
     # La guardamos de forma correcta
     pl=(url)
 
-def dl_video(link):     # Descarga el video con mejor calidad
+def dl_video(link, is_pl,i):     # Descarga el video con mejor calidad
     x = datetime.datetime.now()   # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
     x = str(x.strftime(" %Y-%m-%d %H-%M-%S"))
-    name = str(link.title) + " " + x    # Pone la fecha y hora de descarga
-    link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download, name)
+    i=str(i)
+    if i!=0:
+        name ="[" + i + "] " + str(link.title) + " " + x    # Pone la fecha, hora y posicion de la descarga
+    else:
+        name = str(link.title) + " " + x    # Pone la fecha y hora de descarga
+    
+    
+    if not is_pl:
+        global path_download
+        try:
+            output=link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download, name)
+        except:
+            print("Parece que ha ocurrido un error al descargar el video %s", link.title)
+            remove(output)  # Borra el video erroneo
+            print("Reiniciando descarga")
+            # Volver a descargar
+            try:
+                link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download, name)
+            except:
+                print("Parece que el error se ha vuelto a repetir")
+                print("Comprueba el link: %s", str(link))
+    else:   # Si es una playlist lo guarda en una carpeta con el nombre de la playlist
+        global path_download_pl
+        try:
+            output=link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download_pl, name)
+        except:
+            print("Parece que ha ocurrido un error al descargar el video %s", link.title)
+            remove(output)  # Borra el video erroneo
+            print("Reiniciando descarga")
+            # Volver a descargar
+            try:
+                link.streams.filter(file_extension='mp4').get_highest_resolution().download(path_download_pl, name)
+            except:
+                print("Parece que el error se ha vuelto a repetir")
+                print("Comprueba el link: %s", str(link))
 
-def dl_audio(link):     # Descarga el audio del video
+
+def dl_audio(link, is_pl,i):     # Descarga el audio del video
     x = datetime.datetime.now()    # GUARDA LA VARIABLE A LA HORA DE DESCARGAR
     x = str(x.strftime(" %Y-%m-%d %H-%M-%S"))
-    name = str(link.title) + " " + x    # Pone la fecha y hora de descarga en el nombre del video
-    output=(link.streams.filter(only_audio=True).first().download(path_download, name)) # Descarga el audio con el nombre indicado en la linea de arriba y guarda la direccion de guardado en la variable ouput
-                                                                                        
-    # CONVIERTE EL ARCHIVO DE MP4 A MP3
-    base, ext = os.path.splitext(output)    # Divide la ruta de guardado en lo que es la base, es decir, el path y el nombre del file y por otro lado la extension, en este caso, mp4
-    if ext!="":
-        new_file = base  + '.mp3'               # Sustituye la extension mp4 a mp3
-        os.rename(output, new_file)             # Efectua el cambio de nombre
+    i=str(i)
+    if i!='0':
+        name ="[" + i + "]" + str(link.title) + " " + x    # Pone la fecha, hora y posicion de la descarga
+    else:
+        name = str(link.title) + " " + x    # Pone la fecha y hora de descarga
+    
+    if not is_pl:
+        try:
+            output=(link.streams.filter(only_audio=True).first().download(path_download, name)) # Descarga el audio con el nombre indicado en la linea de arriba y guarda la direccion de guardado en la variable ouput
+        except:
+            print("Parece que ha ocurrido un error al descargar el video %s", link.title)
+            remove(output)  # Borra el video erroneo
+            print("Reiniciando descarga")
+            # Volver a descargar
+            try:
+                output=(link.streams.filter(only_audio=True).first().download(path_download, name))
+            except:
+                print("Parece que el error se ha vuelto a repetir")
+                print("Comprueba el link: %s", str(link))
+        # CONVIERTE EL ARCHIVO DE MP4 A MP3
+        base, ext = os.path.splitext(output)    # Divide la ruta de guardado en lo que es la base, es decir, el path y el nombre del file y por otro lado la extension, en este caso, mp4
+        if ext!="":
+            new_file = base  + '.mp3'               # Sustituye la extension mp4 a mp3
+            os.rename(output, new_file)             # Efectua el cambio de nombre
+    else:
+        global path_download_pl
+        try:
+            output=(link.streams.filter(only_audio=True).first().download(path_download_pl, name)) # Descarga el audio con el nombre indicado en la linea de arriba y guarda la direccion de guardado en la variable ouput
+        except:
+            print("Parece que ha ocurrido un error al descargar el video %s", link.title)
+            remove(output)  # Borra el video erroneo
+            print("Reiniciando descarga")
+            # Volver a descargar
+            try:
+                output=(link.streams.filter(only_audio=True).first().download(path_download_pl, name))
+            except:
+                print("Parece que el error se ha vuelto a repetir")
+                print("Comprueba el link: %s", str(link))
+        # CONVIERTE EL ARCHIVO DE MP4 A MP3
+        base, ext = os.path.splitext(output)    # Divide la ruta de guardado en lo que es la base, es decir, el path y el nombre del file y por otro lado la extension, en este caso, mp4
+        if ext!="":
+            new_file = base  + '.mp3'               # Sustituye la extension mp4 a mp3
+            os.rename(output, new_file)             # Efectua el cambio de nombre
+
 
 # Funciones principales
 # LAS FUNCIONES DEL MAIN
@@ -140,7 +224,7 @@ def v_dl():
         print("Leyendo URL...")
         yt_main=YouTube(yt) # Hace el polimorfismo
         print("Descargando video...")
-        dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
+        dl_video(yt_main, False, 0)   # Llama a la funcion encargada de decargar el video
         print("Video descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         input()
@@ -158,7 +242,7 @@ def a_dl():
         print("Leyendo URL...")
         yt_main=YouTube(yt) # Hace el polimorfismo
         print("Descargando audio...")
-        dl_audio(yt_main)   # Llama a la funcion encargada de decargar el audio
+        dl_audio(yt_main, False, 0)   # Llama a la funcion encargada de decargar el audio
         print("Audio descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         input()
@@ -177,9 +261,9 @@ def all_dl():
         print("Leyendo URL...")
         yt_main=YouTube(yt) # Hace el polimorfismo
         print("Descargando todo...")
-        dl_audio(yt_main)   # Llama a la funcion encargada de decargar el audio
+        dl_audio(yt_main, False, 0)   # Llama a la funcion encargada de decargar el audio
         print("Audio descargado con exito")
-        dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
+        dl_video(yt_main, False, 0)   # Llama a la funcion encargada de decargar el video
         print("Video descargado con exito")        
         print("Pulsa cualquier tecla para continuar")
         input()
@@ -192,7 +276,19 @@ def all_dl():
         borrarPantalla()
         main()  # Vuelve al menu principal
 
-# LAS FUNCIONES DEL MAIN2
+
+
+
+
+
+
+
+
+
+
+
+#=====================================================================================================================================================================================================================
+                                                                                        # LAS FUNCIONES DEL MAIN2
 def insert_url_pl():
     print("Cual es la URL a descargar: ", end="")
     url=input()
@@ -255,12 +351,15 @@ def mostrar_url_pl():
 def v_dl_pl():
     global pl   # Importa la variable que almacena la URL del video como srt
     if pl!='':  # Comprueba que antes se haya introducido una URL
+        i=1
         print("Leyendo URLs...")
         pl_main=Playlist(pl) # Hace el polimorfismo
+        carpeta_pl(pl_main.title())
         print("Descargando videos...")
         for yt in pl_main:
             yt_main=YouTube(yt)
-            dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
+            dl_video(yt_main, True, i)   # Llama a la funcion encargada de decargar el video
+            i+=1
         print("Videos descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         input()
@@ -276,12 +375,15 @@ def v_dl_pl():
 def a_dl_pl():
     global pl   # Importa la variable que almacena la URL del video como srt
     if pl!='':  # Comprueba que antes se haya introducido una URL
+        i=1
         print("Leyendo URLs...")
         pl_main=Playlist(pl) # Hace el polimorfismo
+        carpeta_pl(pl_main.title())
         print("Descargando audios...")
         for yt in pl_main:
             yt_main=YouTube(yt)
-            dl_audio(yt_main)   # Llama a la funcion encargada de decargar el audio
+            dl_audio(yt_main, True, i)   # Llama a la funcion encargada de decargar el audio
+            i+=1
         print("Audios descargado con exito")
         print("Pulsa cualquier tecla para continuar")
         input()
@@ -297,13 +399,16 @@ def a_dl_pl():
 def all_dl_pl():
     global pl   # Importa la variable que almacena la URL del video como srt
     if pl!='':  # Comprueba que antes se haya introducido una URL
+        i=1
         print("Leyendo URLs...")
         pl_main=Playlist(pl) # Hace el polimorfismo
+        carpeta_pl(pl_main.title())
         print("Descargando todo...")
         for yt in pl_main:
             yt_main=YouTube(yt)
-            dl_audio(yt_main)   # Llama a la funcion encargada de decargar el audio
-            dl_video(yt_main)   # Llama a la funcion encargada de decargar el video
+            dl_audio(yt_main, True, i)   # Llama a la funcion encargada de decargar el audio
+            dl_video(yt_main, True, i)   # Llama a la funcion encargada de decargar el video
+            i+=1
         print("Videos y audios descargados con exito")        
         print("Pulsa cualquier tecla para continuar")
         input()

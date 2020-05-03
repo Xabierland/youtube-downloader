@@ -1,6 +1,7 @@
 		CAMBIOS v1.0	23/04/2020
 =====================================================
 - 	Se permite descargar videos
+
 - 	Se permite descargar audios
 
 		CAMBIOS v1.1	26/04/2020
@@ -8,12 +9,25 @@
 -	Los archivos se guardan con la fecha
 	lo que permite descargar varias instancias
 	de un mismo video.
+
 -	Se ha añadido una nueva pagina al menu con
 	las opciones de las playlist
+
 -	Se permite descargar playlist ya sea como
 	video, audio o ambas
+
 -	Se han arreglado varios errores que producian
 	el cierre del programa.
+
 -	El programa ya es usable ademas de en Windows
 	en Linux y en MACOS aunque solo ejecutandolo
 	desde la terminal.
+
+		CAMBIOS v1.2	03/05/2020
+=====================================================
+-	Correcion de varios errores que probocaban 
+	la descarga de archivos corruptos y en ocasiones
+	el cierre inesperado del programa.
+
+-	Ahora las playlist se descargan en una carpeta
+	con el nombre de la propia playlist.
