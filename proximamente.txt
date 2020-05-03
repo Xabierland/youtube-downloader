@@ -1,4 +1,4 @@
-		Proximos cambios v1.1
+		Proximos cambios
 ======================================================
 - Elegir calidad de video
 - Barra de progreso de descarga
