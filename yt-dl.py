@@ -25,7 +25,7 @@ path_download_pl=''
 # LOGICA DE ALMACENAMIENTO DE LOS VIDEOS
 if os.name == "posix":
     if 'ANDROID_ARGUMENT' in environ:
-        path_download=str(os.path.join(Path.home(), "sdcard\\Movies"))
+        path_download=str(Path.home(), "yt-dl")
         try:
             os.mkdir(path_download)
         except OSError:
