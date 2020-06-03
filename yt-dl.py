@@ -13,7 +13,7 @@
 # No es necesario instalar la liberia os y Path ya que viene de serie
 from pytube import YouTube, Playlist
 from pathlib import Path
-from os import remove
+from os import remove, environ
 import datetime, time, os
 
 # Variables
@@ -22,14 +22,24 @@ pl=''   # URL DE UNA PLAYLIST
 path_download=''
 path_download_pl=''
 
+# LOGICA DE ALMACENAMIENTO DE LOS VIDEOS
 if os.name == "posix":
-    path_download=str(os.path.join(Path.home(), "yt-dl"))    # LA CARPETA DONDE SE DESCARGAN
-    try:
-        os.mkdir(path_download)                                         # PRUEBA A CREAR EL PATH DE DESCARGA
-    except OSError:
-        print("La creación del directorio %s falló" % path_download)    # SI YA EXISTE SE EJECUTA ESTO
+    if 'ANDROID_ARGUMENT' in environ:
+        path_download=str(os.path.join(Path.home(), "sdcard\\Movies"))
+        try:
+            os.mkdir(path_download)
+        except OSError:
+            print("La creacion del directorio %s fallo" % path_download)
+        else:
+            print("Se ha creado el directorio: %s " % path_download)    
     else:
-        print("Se ha creado el directorio: %s " % path_download)        # SI NO EXISTE SE CREA Y SE IMPRIME
+        path_download=str(os.path.join(Path.home(), "yt-dl"))    # LA CARPETA DONDE SE DESCARGAN
+        try:
+            os.mkdir(path_download)                                         # PRUEBA A CREAR EL PATH DE DESCARGA
+        except OSError:
+            print("La creación del directorio %s falló" % path_download)    # SI YA EXISTE SE EJECUTA ESTO
+        else:
+            print("Se ha creado el directorio: %s " % path_download)        # SI NO EXISTE SE CREA Y SE IMPRIME
 elif os.name == "ce" or os.name == "nt" or os.name == "dos":
     path_download=str(os.path.join(Path.home(), "Downloads\\yt-dl"))    # LA CARPETA DONDE SE DESCARGAN
     try:
@@ -50,7 +60,6 @@ def carpeta_pl(nombre):
     else:
         print("Se ha creado el directorio: %s " % path_download_pl)        # SI NO EXISTE SE CREA Y SE IMPRIME
     
-
 def borrarPantalla(): #Definimos la función estableciendo el nombre que queramos
     if os.name == "posix":
         os.system ("clear")
