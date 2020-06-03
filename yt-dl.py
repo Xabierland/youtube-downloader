@@ -48,7 +48,9 @@ elif os.name == "ce" or os.name == "nt" or os.name == "dos":
         print("La creación del directorio %s falló" % path_download)    # SI YA EXISTE SE EJECUTA ESTO
     else:
         print("Se ha creado el directorio: %s " % path_download)        # SI NO EXISTE SE CREA Y SE IMPRIME
-
+else:
+    print("ERROR. No se ha detectado un sistema operativo valido")
+    exit
 #Sub-Programas
 def carpeta_pl(nombre):
     global path_download, path_download_pl
