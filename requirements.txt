@@ -1,2 +1,2 @@
-pytube==9.6.0
+pytube==10.1.0
 pytube3==9.6.4
