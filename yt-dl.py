@@ -320,7 +320,7 @@ def insert_url_pl():
         main()
     # Si no salta ningun error se leera el codigo debajo de este comentario.
     print("¿Es esta la playlist que has seleccionado?")
-    print(pl_main.title())    # Imprime el titulo del video
+    print(pl_main.title)    # Imprime el titulo del video
     print("[S/N]", end="")
     opcion=input()
     if opcion=='S' or opcion=='s':      # La URL ya se ha guardado y vuelves al menu principal
@@ -368,7 +368,7 @@ def v_dl_pl():
         i=1
         print("Leyendo URLs...")
         pl_main=Playlist(pl) # Hace el polimorfismo
-        carpeta_pl(pl_main.title())
+        carpeta_pl(pl_main.title)
         print("Descargando videos...")
         for yt in pl_main:
             yt_main=YouTube(yt)
@@ -392,7 +392,7 @@ def a_dl_pl():
         i=1
         print("Leyendo URLs...")
         pl_main=Playlist(pl) # Hace el polimorfismo
-        carpeta_pl(pl_main.title())
+        carpeta_pl(pl_main.title)
         print("Descargando audios...")
         for yt in pl_main:
             yt_main=YouTube(yt)
@@ -416,7 +416,7 @@ def all_dl_pl():
         i=1
         print("Leyendo URLs...")
         pl_main=Playlist(pl) # Hace el polimorfismo
-        carpeta_pl(pl_main.title())
+        carpeta_pl(pl_main.title)
         print("Descargando todo...")
         for yt in pl_main:
             yt_main=YouTube(yt)
